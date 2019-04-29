@@ -1,0 +1,7 @@
+/*.project
+/.settings
+/tennis-server/target
+/tennis-server/.externalToolBuilders
+/tennis-server/.settings
+/tennis-server/src/main/resources/tennisdb.lck
+/tennis-server/src/main/resources/tennisdb.log
