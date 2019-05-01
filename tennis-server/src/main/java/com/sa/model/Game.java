@@ -41,6 +41,10 @@ public class Game implements Serializable{
     @JoinColumn(name = "SET_ID")
     private SetTennis setTennis;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLAYER_ID")
+    private Player winner;
+	
 	public Game() {
 	
 	}
@@ -69,6 +73,18 @@ public class Game implements Serializable{
 
 	public void setSetTennis(SetTennis setTennis) {
 		this.setTennis = setTennis;
+	}
+
+	public Player getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Player winner) {
+		this.winner = winner;
+	}
+
+	public Collection<ScoreGame> getScores() {
+		return scores;
 	}
 
 	@Override
