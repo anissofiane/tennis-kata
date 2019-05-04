@@ -1,7 +1,7 @@
 <div align="center" style="width:100%">
-<button [disabled]="!currentGame.winner" class="btn btn-primary">New Game</button>
+<button [disabled]="!currentGame.winner" class="btn btn-primary"  (click)="createGame()">New Game</button>
 <table border="1" style="width:50%">
-<caption style="caption-side: top">Game N&deg; {{this.currentGame.id}}</caption>
+<caption style="caption-side: top">Game N&deg; {{this.currentGame.gameOrder}}</caption>
     <tr *ngFor="let player of currentGame.players">
         <th style="width: 1%;text-align:center;"><button [disabled]="currentGame.winner" class="btn btn-secondary" (click)="addPoint(player.id)">ADD</button></th>
         <th style="width: 1%;text-align: center;">{{player.name}}</th>        

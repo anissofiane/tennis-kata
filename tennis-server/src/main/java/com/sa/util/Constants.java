@@ -8,5 +8,6 @@ public class Constants {
 	public static final String CREATE_SET = "/createSetTennis";
 	public static final String CURRENT_GAME = "/currentGame/{setId}";
 	public static final String ADD_POINT = "/addPoint/{gameId}/{playerId}";
+	public static final String CREATE_GAME = "/createGame/{setTennisId}";
 
 }

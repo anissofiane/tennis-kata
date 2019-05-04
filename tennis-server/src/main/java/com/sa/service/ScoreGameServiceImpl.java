@@ -21,9 +21,8 @@ public class ScoreGameServiceImpl implements ScoreGameService {
 	private ScoreGameRepository scoreGameRepository;
 	
 	@Override
-	public void addScore(Game game, Player player, int scoreOrder, String scoreValue) {
-		ScoreGame scoreGame = new ScoreGame(player);
-		scoreGame.setScoreOrder(scoreOrder);
+	public void addScore(Game game, Player player, String scoreValue) {
+		ScoreGame scoreGame = new ScoreGame(player);		
 		scoreGame.setScoreValue(scoreValue);
 		scoreGame.setGame(game);
 		scoreGameRepository.save(scoreGame);
@@ -34,13 +33,10 @@ public class ScoreGameServiceImpl implements ScoreGameService {
 		
 		Specification<ScoreGame> scoresGame  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("game").get("id"), game.getId());
 		Specification<ScoreGame> scoresGamePlayer  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("player").get("id"), player.getId());
-		
-		
-		//Specification<ScoreGame> scoresGamePlayerLast =  (scoreGame, cq, cb) -> cq.select(cb.max(scoreGame.get("scoreOrder"))).;
-		
+				
 		List<ScoreGame> scores = scoreGameRepository.findAll(scoresGame.and(scoresGamePlayer));
 		
-		Comparator<ScoreGame> comparator = Comparator.comparing( ScoreGame::getScoreOrder );
+		Comparator<ScoreGame> comparator = Comparator.comparing( ScoreGame::getId );
 			
 		return scores.stream().max(comparator).get();
 	}
@@ -53,7 +49,7 @@ public class ScoreGameServiceImpl implements ScoreGameService {
 		
 		List<ScoreGame> scores = scoreGameRepository.findAll(scoresGame.and(scoresGamePlayer));
 		
-		Comparator<ScoreGame> comparator = Comparator.comparing( ScoreGame::getScoreOrder );
+		Comparator<ScoreGame> comparator = Comparator.comparing( ScoreGame::getId );
 			
 		return scores.stream().sorted(comparator).collect(Collectors.toList());
 	}

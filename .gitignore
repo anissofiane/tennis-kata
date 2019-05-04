@@ -5,3 +5,4 @@
 /tennis-server/.settings
 /tennis-server/src/main/resources/tennisdb.lck
 /tennis-server/src/main/resources/tennisdb.log
+/tennis-server/*.log

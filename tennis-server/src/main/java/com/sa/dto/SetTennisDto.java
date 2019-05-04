@@ -9,6 +9,8 @@ public class SetTennisDto {
 	private Collection<PlayerDto> players;
 	
 	private Collection<GameDto> games;
+	
+	private int setTennisOrder;
 
 	public Long getId() {
 		return id;
@@ -32,5 +34,13 @@ public class SetTennisDto {
 
 	public void setGames(Collection<GameDto> games) {
 		this.games = games;
+	}
+
+	public int getSetTennisOrder() {
+		return setTennisOrder;
+	}
+
+	public void setSetTennisOrder(int setTennisOrder) {
+		this.setTennisOrder = setTennisOrder;
 	}
 }

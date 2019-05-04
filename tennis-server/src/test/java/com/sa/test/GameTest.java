@@ -51,7 +51,7 @@ public class GameTest {
 		
 		SetTennis setTennis = setTennisService.createSetTennis(Arrays.asList(player_a,player_b));
 		
-		SetTennis setTennis2 = setTennisService.findSetTennis(setTennis.getId());
+		SetTennis setTennis2 = setTennisService.getSetTennisById(setTennis.getId());
 		
 		Game game = gameService.getCurrentGame(setTennis2.getId());
 		

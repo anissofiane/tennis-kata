@@ -8,7 +8,8 @@ export class GameDto {
         public scores: ScoreGameDto[],
         public scoresMap: Map<string, ScoreGameDto []>,
         public players: PlayerDto [],
-        public winner: PlayerDto
+        public winner: PlayerDto,
+        public gameOrder: string,
     ) { }
 }
 
@@ -27,11 +28,15 @@ export class GameService {
 
   constructor(private httpClient: HttpClient) { }
 
-   getCurrentGame(setId: string) {
-      return this.httpClient.get<GameDto>('http://localhost:8080/currentGame' + '/' + setId);
+   getCurrentGame(setTennisId: string) {
+      return this.httpClient.get<GameDto>('http://localhost:8080/currentGame' + '/' + setTennisId);
   }
 
   addPoint(gameId: string, playerId: string) {
       return this.httpClient.get<GameDto>('http://localhost:8080/addPoint' + '/' + gameId + '/' + playerId);
+  }
+
+  createGame(setTennisId: string) {
+      return this.httpClient.get<GameDto>('http://localhost:8080/createGame' + '/' + setTennisId);
   }
 }

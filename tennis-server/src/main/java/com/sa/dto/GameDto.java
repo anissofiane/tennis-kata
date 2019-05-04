@@ -11,6 +11,7 @@ public class GameDto {
 	private PlayerDto winner;
 	private Map<Long, Collection<ScoreGameDto>> scoresMap;
 	private Collection<PlayerDto> players;
+	private int gameOrder;
 	
 	public Long getId() {
 		return id;
@@ -42,6 +43,12 @@ public class GameDto {
 	}
 	public void setPlayers(Collection<PlayerDto> players) {
 		this.players = players;
+	}
+	public int getGameOrder() {
+		return gameOrder;
+	}
+	public void setGameOrder(int gameOrder) {
+		this.gameOrder = gameOrder;
 	}
 	
 	

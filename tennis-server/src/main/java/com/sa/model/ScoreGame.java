@@ -33,9 +33,6 @@ public class ScoreGame implements Serializable{
 	@Column(name = "SCORE_VALUE")
 	private String scoreValue; 
 	
-	@Column(name = "SCORE_ORDER")
-	private int scoreOrder; 
-	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAYER_ID")
 	private Player player;
@@ -83,14 +80,6 @@ public class ScoreGame implements Serializable{
 
 	public void setGame(Game game) {
 		this.game = game;
-	}
-	
-	public int getScoreOrder() {
-		return scoreOrder;
-	}
-
-	public void setScoreOrder(int scoreOrder) {
-		this.scoreOrder = scoreOrder;
 	}
 
 	@Override

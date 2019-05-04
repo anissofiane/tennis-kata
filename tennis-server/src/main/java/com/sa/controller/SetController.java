@@ -36,6 +36,7 @@ public class SetController {
 	
 	private SetTennisDto convertToDto(SetTennis setTennis) {
 		SetTennisDto setTennisDto = modelMapper.map(setTennis, SetTennisDto.class);	    
+		setTennisDto.setSetTennisOrder(setTennisService.getSetOrder(setTennis));
 	    return setTennisDto;
 	}
 }

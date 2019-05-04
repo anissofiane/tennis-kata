@@ -7,7 +7,8 @@ import { PlayerDto } from './player.service';
 export class SetTennisDto {
     constructor(
         public id: string,
-        public players: PlayerDto[]
+        public players: PlayerDto[],
+        public setTennisOrder: string,
     ) { }
 }
 

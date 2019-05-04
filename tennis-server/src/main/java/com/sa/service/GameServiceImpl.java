@@ -1,6 +1,9 @@
 package com.sa.service;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,6 +51,9 @@ public class GameServiceImpl implements GameService {
 	@Autowired
 	private GameRepository gameRepository;
 	
+	@Autowired
+	private PlayerService playerService;
+	
 	@Override
 	public void addPoint(Game game, Player player) {
 		boolean gameEnd = false;
@@ -59,13 +65,13 @@ public class GameServiceImpl implements GameService {
 			gameEnd = true;
 		}
 		
-		scoreGameService.addScore(game, player, lastScoreGameA.getScoreOrder() +1 , nextScoreValue.getPoint());
+		scoreGameService.addScore(game, player, nextScoreValue.getPoint());
 					
 		
 		for(Player p : game.getSetTennis().getPlayers()){
 			if(!player.equals(p)){
 				ScoreGame lastScoreGameB = scoreGameService.getLastScoreGame(game, p);
-				scoreGameService.addScore(game, p, lastScoreGameB.getScoreOrder() +1 , gameEnd ? "0" : lastScoreGameB.getScoreValue());
+				scoreGameService.addScore(game, p, gameEnd ? "0" : lastScoreGameB.getScoreValue());
 			}
 		}
 						
@@ -81,7 +87,7 @@ public class GameServiceImpl implements GameService {
 	public Game createGame(Collection<Player> players) {
 		Game game = saveGame(new Game());
 		for(Player player: players){
-			scoreGameService.addScore(game, player, 0, ScoreValueEnum.POINT_0.getPoint());
+			scoreGameService.addScore(game, player, ScoreValueEnum.POINT_0.getPoint());
 		}		
 		return saveGame(game);		
 	}
@@ -118,6 +124,29 @@ public class GameServiceImpl implements GameService {
 		Specification<Game> winnerIsNull = (game, cq, cb) -> cb.isNull(game.get("winner"));
 		Specification<Game> getGameSet = (game, cq, cb) -> cb.equal(game.get("setTennis").get("id"), setId);
 		return gameRepository.findOne(getGameSet.and(winnerIsNull)).get();
+	}
+
+	@Override
+	public Game addPoint(Long gameId, Long playerId) {
+		Game game = getGameById(gameId);
+		Player player = playerService.getPlayerById(playerId);
+		addPoint(game, player);
+		return game;
+	}
+
+	@Override
+	public int getGameOrder(Game game) {
+			
+		Specification<Game> setTennisGames  = (g, cq, cb) -> cb.equal(g.get("setTennis").get("id"), game.getSetTennis().getId());
+						
+		List<Game> games = gameRepository.findAll(setTennisGames);
+		
+		Comparator<Game> comparator = Comparator.comparing( Game::getId );
+			
+		List<Game> sortedGames = games.stream().sorted(comparator).collect(Collectors.toList());
+		
+		return sortedGames.indexOf(game);
+		
 	}
 	
 }

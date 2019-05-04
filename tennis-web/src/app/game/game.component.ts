@@ -28,6 +28,11 @@ export class GameComponent implements OnInit {
       .subscribe( response => { this.currentGame = response; } );
   }
 
+  createGame(): void {
+    this.gameService.createGame(this.setTennisId)
+        .subscribe( response => { this.currentGame = response; } );
+  }
+
   get setTennisId(): string {
       return this._setTennisId;
   }

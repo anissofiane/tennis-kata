@@ -20,9 +20,9 @@ import com.sa.dto.PlayerDto;
 import com.sa.dto.ScoreGameDto;
 import com.sa.model.Game;
 import com.sa.model.Player;
-import com.sa.model.SetTennis;
+import com.sa.model.ScoreGame;
 import com.sa.service.GameService;
-import com.sa.service.PlayerService;
+import com.sa.service.ScoreGameService;
 import com.sa.service.SetTennisService;
 import com.sa.util.Constants;
 
@@ -30,11 +30,15 @@ import com.sa.util.Constants;
 @RestController
 public class GameController {
 
-	@Autowired
-	private PlayerService playerService;
 	
 	@Autowired
 	private GameService gameService;
+	
+	@Autowired
+	private SetTennisService setTennisService;
+	
+	@Autowired
+	private ScoreGameService scoreGameService;
 	
 	private ModelMapper modelMapper = new ModelMapper();
 	
@@ -46,24 +50,28 @@ public class GameController {
 	
 	@RequestMapping(value = Constants.ADD_POINT, method = RequestMethod.GET)
 	public GameDto addPoint(@PathVariable("gameId") Long gameId, @PathVariable("playerId") Long playerId){
-		Game game = gameService.getGameById(gameId);
-		Player player = playerService.getPlayerById(playerId);
-		gameService.addPoint(game, player);
-		return convertToDto(game);
+		Game game = gameService.addPoint(gameId, playerId);
+		return convertToDto(game);		
 	}
-		
+	
+	@RequestMapping(value = Constants.CREATE_GAME, method = RequestMethod.GET)
+	public GameDto createGame(@PathVariable("setTennisId") Long setTennisId){		
+		Game game = setTennisService.createGame(setTennisId);		
+		return convertToDto(game);		
+	}
+	
 	private GameDto convertToDto(Game game) {
 		GameDto gameDto = modelMapper.map(game, GameDto.class);	
 		
 		HashMap<Long, Collection<ScoreGameDto>> map = new HashMap<Long, Collection<ScoreGameDto>>();
 		Collection<PlayerDto> playersDto = game.getSetTennis().getPlayers().stream().map(player -> modelMapper.map(player, PlayerDto.class)).collect(Collectors.toList());
-		Comparator<ScoreGameDto> comparator = Comparator.comparing( ScoreGameDto::getScoreOrder );
-		for(PlayerDto playerDto : playersDto ){			
-			Predicate<ScoreGameDto> predicate = (ScoreGameDto score) -> score.getPlayer().equals(playerDto);
-			List<ScoreGameDto> list = gameDto.getScores().stream().filter(predicate).sorted(comparator).collect(Collectors.toList());
-			map.put(playerDto.getId(), list);
-		}
 		
+		for(Player player : game.getSetTennis().getPlayers() ){			
+			Collection<ScoreGame> scores = scoreGameService.getScoresGameOfPlayer(game, player);
+			Collection<ScoreGameDto> list = scores.stream().map(scoreGame -> modelMapper.map(scoreGame, ScoreGameDto.class)).collect(Collectors.toList());
+			map.put(player.getId(), list);
+		}
+		gameDto.setGameOrder(gameService.getGameOrder(game));
 		gameDto.setPlayers(playersDto);
 		gameDto.setScoresMap(map);
 		return gameDto;

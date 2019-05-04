@@ -13,10 +13,12 @@ TRUNCATE TABLE SCORE_SET;
 TRUNCATE TABLE SET_TENNIS;
 
 select * from player;
-select * from game where set_id = 701;
-select * from score_game where game_id = 8401;
+select * from game where set_id = 14501;
+select * from score_game where game_id = 15401;
 select * from set_tennis;
-select * from set_tennis_player where set_id = 5401;
+
+select distinct set_id from set_tennis_player where player_id in (1401,1501);
+
 
 
 

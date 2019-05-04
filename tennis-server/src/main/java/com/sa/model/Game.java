@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "GAME")
@@ -47,7 +48,7 @@ public class Game implements Serializable{
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PLAYER_ID")
     private Player winner;
-	
+			
 	public Game() {
 	
 	}
@@ -101,5 +102,6 @@ public class Game implements Serializable{
      public int hashCode() {
          return id.hashCode();
      }
-        
+
+	        
 }

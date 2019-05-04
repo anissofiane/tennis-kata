@@ -1,6 +1,11 @@
 package com.sa.service;
 
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.JoinType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -35,8 +40,25 @@ public class SetTennisServiceImpl implements SetTennisService{
 	}
 
 	@Override
-	public SetTennis findSetTennis(Long id) {
+	public SetTennis getSetTennisById(Long id) {
 		return setTennisRepository.findById(id).get();
+	}
+
+	@Override
+	public Game createGame(Long setTennisId) {
+		SetTennis setTennis = getSetTennisById(setTennisId);
+		Game game = gameService.createGame(setTennis.getPlayers());		
+		setTennis.addGame(game);
+		setTennisRepository.save(setTennis);
+		return gameService.getGameById(game.getId());
+	}
+
+	@Override
+	public int getSetOrder(SetTennis setTennis) {
+		Iterator<Player> it = setTennis.getPlayers().iterator();
+		Specification<SetTennis> sets  = (s, cq, cb) -> cb.equal(s.joinCollection("players", JoinType.LEFT).get("id"), it.next().getId());
+		List<SetTennis> setTennisList = setTennisRepository.findAll(sets);
+		return setTennisList.indexOf(setTennis);
 	}
 	
 }
