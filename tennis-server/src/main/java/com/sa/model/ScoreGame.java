@@ -2,6 +2,7 @@ package com.sa.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -23,21 +25,22 @@ public class ScoreGame implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="seqScoreGame", sequenceName = "SEQ_SCORE_GAME",  initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator="seqScoreGame")
 	@Column(name = "SCORE_GAME_ID")
 	private Long id;
 
 	@Column(name = "SCORE_VALUE")
-	private int scoreValue; 
+	private String scoreValue; 
 	
 	@Column(name = "SCORE_ORDER")
 	private int scoreOrder; 
 	
-	@OneToOne
-	@JoinColumn(name = "PLAYER_ID" , referencedColumnName = "PLAYER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLAYER_ID")
 	private Player player;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "GAME_ID")
     private Game game;
 	
@@ -58,11 +61,11 @@ public class ScoreGame implements Serializable{
 		this.id = id;
 	}
 
-	public int getScoreValue() {
+	public String getScoreValue() {
 		return scoreValue;
 	}
 
-	public void setScoreValue(int scoreValue) {
+	public void setScoreValue(String scoreValue) {
 		this.scoreValue = scoreValue;
 	}
 

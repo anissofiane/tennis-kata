@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -26,22 +27,24 @@ public class Game implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="seqGame", sequenceName = "SEQ_GAME",  initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator="seqGame")
 	@Column(name = "GAME_ID")
 	private Long id;
 
 	@OneToMany(
 	        mappedBy = "game",
 	        cascade = CascadeType.MERGE,
-	        orphanRemoval = true
+	        orphanRemoval = true,
+	        fetch = FetchType.LAZY
 	    )
     private Collection<ScoreGame> scores = new ArrayList<ScoreGame>();
 		
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SET_ID")
     private SetTennis setTennis;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PLAYER_ID")
     private Player winner;
 	
@@ -98,4 +101,5 @@ public class Game implements Serializable{
      public int hashCode() {
          return id.hashCode();
      }
+        
 }

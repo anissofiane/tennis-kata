@@ -19,7 +19,7 @@ import com.sa.util.Constants;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-public class PlayerControler {
+public class PlayerController {
 
 	@Autowired
 	private PlayerService playerService;

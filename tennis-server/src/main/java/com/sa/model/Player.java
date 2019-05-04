@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -26,14 +27,14 @@ public class Player implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="seqPlayer", sequenceName = "SEQ_PLAYER",  initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator="seqPlayer")
 	@Column(name = "PLAYER_ID")
 	private Long id;
 	
 	@Column(name = "NAME")
 	private String name;
 
-	
 	@ManyToMany(
 	        cascade = {
 	            CascadeType.PERSIST,
@@ -41,8 +42,8 @@ public class Player implements Serializable{
 	        }
 	    )
 	    @JoinTable(name = "SET_TENNIS_PLAYER",
-	        joinColumns = @JoinColumn(name = "SET_ID"),
-	        inverseJoinColumns = @JoinColumn(name = "PLAYER_ID")
+	        joinColumns = @JoinColumn(name = "PLAYER_ID"),
+	        inverseJoinColumns = @JoinColumn(name = "SET_ID")
 	    )
     private Collection<SetTennis> sets = new ArrayList<SetTennis>();			
 	

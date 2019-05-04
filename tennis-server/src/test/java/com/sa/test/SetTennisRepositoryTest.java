@@ -1,5 +1,6 @@
 package com.sa.test;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
@@ -42,12 +43,18 @@ public class SetTennisRepositoryTest {
 	@Test
 	public void whenFindingById_then_correct(){
 		
+		SetTennis setTennis = setTennisRepository.save(new SetTennis());
+		
 		Player player_a = playerRepository.save(new Player("player_a"));
-						
+		setTennis.addPlayer(player_a);
+		SetTennis setTennis2 = setTennisRepository.save(setTennis);
+		
 		Optional<Player> p = playerRepository.findById(player_a.getId());
 		Assert.assertTrue(p.isPresent());
 		
 		ScoreSet score_set_a = scoreSetRepository.save(new ScoreSet(player_a));
+		
+		setTennis2.addScore(score_set_a);
 		
 		Optional<ScoreSet> score_set_a_option = scoreSetRepository.findById(score_set_a.getId());
 		Assert.assertTrue(score_set_a_option.isPresent());
@@ -62,16 +69,13 @@ public class SetTennisRepositoryTest {
 		game_a.addScore(score_game_a);
 		
 		Game game = gameRepository.save(game_a);
-
+		
+		setTennis2.addGame(game);
+		
 		Optional<Game> g = gameRepository.findById(game.getId());
-		Assert.assertTrue(g.isPresent());		
+		Assert.assertTrue(g.isPresent());	
 		
-		SetTennis setTennis = new SetTennis();
-		setTennis.addGame(game_a);
-		setTennis.addPlayer(player_a);
-		setTennis.addScore(score_set_a);
-		
-		SetTennis setTennis2 = setTennisRepository.save(setTennis);
+				
 		Optional<SetTennis> set_tennis_option = setTennisRepository.findById(setTennis2.getId());
 		Assert.assertTrue(set_tennis_option.isPresent());
 		

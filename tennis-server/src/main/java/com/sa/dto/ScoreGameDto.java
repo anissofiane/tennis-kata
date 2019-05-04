@@ -3,9 +3,10 @@ package com.sa.dto;
 public class ScoreGameDto {
 
 	private Long id;
-	private int scoreValue;
-	private PlayerDto playerDto;
-	private GameDto gameDto;
+	private String scoreValue;
+	private int scoreOrder;
+	private PlayerDto player;
+	
 	
 	public Long getId() {
 		return id;
@@ -13,25 +14,23 @@ public class ScoreGameDto {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public int getScoreValue() {
+	public String getScoreValue() {
 		return scoreValue;
 	}
-	public void setScoreValue(int scoreValue) {
+	public void setScoreValue(String scoreValue) {
 		this.scoreValue = scoreValue;
 	}
-	public PlayerDto getPlayerDto() {
-		return playerDto;
+	public PlayerDto getPlayer() {
+		return player;
 	}
-	public void setPlayerDto(PlayerDto playerDto) {
-		this.playerDto = playerDto;
+	public void setPlayer(PlayerDto player) {
+		this.player= player;
 	}
-	public GameDto getGameDto() {
-		return gameDto;
+	public int getScoreOrder() {
+		return scoreOrder;
 	}
-	public void setGameDto(GameDto gameDto) {
-		this.gameDto = gameDto;
+	public void setScoreOrder(int scoreOrder) {
+		this.scoreOrder = scoreOrder;
 	}
-	
-	
 	
 }

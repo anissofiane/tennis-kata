@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +24,8 @@ public class ScoreSet implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="seqScoreSet", sequenceName = "SEQ_SCORE_SET",  initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator="seqScoreSet")
 	@Column(name = "SCORE_SET_ID")
 	private Long id;
 

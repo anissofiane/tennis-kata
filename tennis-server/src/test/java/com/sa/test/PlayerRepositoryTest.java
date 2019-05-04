@@ -24,9 +24,12 @@ public class PlayerRepositoryTest {
 	@Test
 	public void whenFindingById_then_correct(){		
 		
-		Player p = playerRepository.save(new Player("player_b"));
-		Optional<Player> p1 = playerRepository.findById(p.getId());
-		Assert.assertTrue(p1.isPresent());
+		Player p1 = playerRepository.save(new Player("Player A"));
+		Optional<Player> option_p1 = playerRepository.findById(p1.getId());
+		Assert.assertTrue(option_p1.isPresent());
 		
+		Player p2 = playerRepository.save(new Player("Player B"));
+		Optional<Player> option_p2 = playerRepository.findById(p2.getId());
+		Assert.assertTrue(option_p2.isPresent());
 	}
 }

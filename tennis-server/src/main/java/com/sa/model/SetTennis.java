@@ -3,17 +3,24 @@ package com.sa.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.PostLoad;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.function.Predicate;
 
 @Entity
 @Table(name = "SET_TENNIS")
@@ -25,27 +32,30 @@ public class SetTennis implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id 
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@SequenceGenerator(name="seqSetTennis", sequenceName = "SEQ_SET_TENNIS",  initialValue=1, allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE , generator="seqSetTennis")
 	@Column(name = "SET_ID")
 	private Long id;
 		
-	@ManyToMany(mappedBy = "sets")  
+	@ManyToMany(mappedBy = "sets", fetch =  FetchType.EAGER)
     private Collection<Player> players = new ArrayList<Player>();
 	 
 	@OneToMany(
 	        mappedBy = "setTennis",
 	        cascade = CascadeType.MERGE,
-	        orphanRemoval = true
+	        orphanRemoval = true,
+	        fetch =  FetchType.LAZY
 	    )
     private Collection<Game> games = new ArrayList<Game>();
 	
 	@OneToMany(
 	        mappedBy = "setTennis",
 	        cascade = CascadeType.MERGE,
-	        orphanRemoval = true
+	        orphanRemoval = true,
+	        fetch =  FetchType.LAZY
 	    )
     private Collection<ScoreSet> scores = new ArrayList<ScoreSet>();
-
+	
 	public Long getId() {
 		return id;
 	}
@@ -96,7 +106,7 @@ public class SetTennis implements Serializable{
 		scores.remove(score);
 		score.setSetTennis(null);
 	}
-	
+
 	@Override
     public boolean equals(Object o) {
         if (this == o) return true;
