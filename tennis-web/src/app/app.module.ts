@@ -5,11 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PlayerComponent } from './player/player.component';
 import { HttpClientModule } from '@angular/common/http';
+import { GameComponent } from './game/game.component';
+import { SetComponent } from './set/set.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlayerComponent
+    PlayerComponent,
+    GameComponent,
+    SetComponent
   ],
   imports: [
     BrowserModule,

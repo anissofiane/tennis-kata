@@ -1,0 +1,17 @@
+
+<table style="width: 100%">    
+    <tr>
+        <td style="text-align: center"><app-player #player></app-player></td>
+    </tr>
+     <tr>
+        <td style="text-align: center">
+            <button class="btn btn-primary" (click)="set.createSetTennis()">New Set</button>
+        </td>                
+    </tr>
+    <tr>
+        <td style="text-align: center"><h2>Set N&deg; {{set.currentSet.id}}</h2></td>
+    </tr>
+    <tr>
+        <td style="text-align: center"><app-set #set></app-set></td>        
+    </tr>  
+</table>

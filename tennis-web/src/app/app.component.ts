@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { SetComponent } from './set/set.component';
 
 @Component({
   selector: 'app-root',
-  template: `   
-    <router-outlet></router-outlet>
-  `,
+  templateUrl: './app.component.html',
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-  title = 'tennis-web';
+   title = 'tennis-web';   
 }

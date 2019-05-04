@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientService } from '../service/http-client.service';
+import { PlayerService, PlayerDto } from '../service/player.service';
 
 @Component({
   selector: 'app-player',
@@ -8,19 +8,18 @@ import { HttpClientService } from '../service/http-client.service';
 })
 export class PlayerComponent implements OnInit {
 
-  players:string[];
+  players: PlayerDto[];
 
-  constructor( private httpClientService:HttpClientService) { }
+  constructor( private playerService: PlayerService) { }
 
   ngOnInit() {
-    this.httpClientService.getAllPlayers().subscribe(
-     response =>this.handleSuccessfulResponse(response),
+    this.playerService.getAllPlayers().subscribe(
+     response => this.handleSuccessfulResponse(response),
     );
   }
 
-handleSuccessfulResponse(response)
-{
-    this.players=response;
-}
+handleSuccessfulResponse(response) {
+    this.players= response;
+ }
 
 }
