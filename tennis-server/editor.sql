@@ -17,6 +17,8 @@ select * from game where set_id = 14501;
 select * from score_game where game_id = 15401;
 select * from set_tennis;
 
+select * from score_set;
+
 select distinct set_id from set_tennis_player where player_id in (1401,1501);
 
 

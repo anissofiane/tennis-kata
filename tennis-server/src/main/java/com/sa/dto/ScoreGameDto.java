@@ -3,8 +3,7 @@ package com.sa.dto;
 public class ScoreGameDto {
 
 	private Long id;
-	private String scoreValue;
-	private int scoreOrder;
+	private String scoreValue;	
 	private PlayerDto player;
 	
 	
@@ -25,12 +24,6 @@ public class ScoreGameDto {
 	}
 	public void setPlayer(PlayerDto player) {
 		this.player= player;
-	}
-	public int getScoreOrder() {
-		return scoreOrder;
-	}
-	public void setScoreOrder(int scoreOrder) {
-		this.scoreOrder = scoreOrder;
 	}
 	
 }

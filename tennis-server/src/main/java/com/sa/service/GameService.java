@@ -9,9 +9,10 @@ public interface GameService {
 
 	public Game createGame(Collection<Player> players);
 	public Game saveGame(Game game);
-	public void addPoint(Game game, Player player);
-	public Game addPoint(Long gameId, Long playerId);
+	public void addPointGame(Game game, Player player);
+	public Game addPointGame(Long gameId, Long playerId);
 	public Game getGameById(Long gameId);
-	public Game getCurrentGame(Long setId);
+	public Game getCurrentGame(Long setTennisId);
+	public Game getLastGame(Long setTennisId);
 	public int getGameOrder(Game game);
 }

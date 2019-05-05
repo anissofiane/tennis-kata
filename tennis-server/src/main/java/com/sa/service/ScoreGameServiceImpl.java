@@ -42,7 +42,7 @@ public class ScoreGameServiceImpl implements ScoreGameService {
 	}
 
 	@Override
-	public Collection<ScoreGame> getScoresGameOfPlayer(Game game, Player player) {
+	public Collection<ScoreGame> getScoresGameByPlayer(Game game, Player player) {
 		
 		Specification<ScoreGame> scoresGame  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("game").get("id"), game.getId());
 		Specification<ScoreGame> scoresGamePlayer  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("player").get("id"), player.getId());			

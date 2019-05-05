@@ -51,15 +51,15 @@ public class GameTest {
 		
 		Game game = gameService.getCurrentGame(setTennis2.getId());
 		game.setSetTennis(setTennis);
-		gameService.addPoint(game, player_b);
+		gameService.addPointGame(game, player_b);
 		
-		gameService.addPoint(game, player_a);
-		gameService.addPoint(game, player_a);
-		gameService.addPoint(game, player_a);
-		gameService.addPoint(game, player_a);
+		gameService.addPointGame(game, player_a);
+		gameService.addPointGame(game, player_a);
+		gameService.addPointGame(game, player_a);
+		gameService.addPointGame(game, player_a);
 		
 				
-		Collection<ScoreGame> scorePlayerA = scoreGameService.getScoresGameOfPlayer(game, player_a);
+		Collection<ScoreGame> scorePlayerA = scoreGameService.getScoresGameByPlayer(game, player_a);
 		System.err.println("Player : " + player_a.getName());
 		for(ScoreGame score : scorePlayerA){			
 			System.err.print(score.getScoreValue() + " ");			
@@ -67,7 +67,7 @@ public class GameTest {
 		System.err.println();
 		
 		
-		Collection<ScoreGame> scorePlayerB = scoreGameService.getScoresGameOfPlayer(game, player_b);
+		Collection<ScoreGame> scorePlayerB = scoreGameService.getScoresGameByPlayer(game, player_b);
 		
 		System.err.println("Player : " + player_b.getName());
 		for(ScoreGame score : scorePlayerB){			
@@ -75,11 +75,10 @@ public class GameTest {
 		}
 		
 		System.err.println();
-		
-		System.err.println("Winner is " + game.getWinner().getName());
-		
+					
 		Assert.assertTrue(player_a.equals(game.getWinner()));
 		
+		System.err.println("Winner is " + game.getWinner().getName());
 	}
 	
 	@Test
@@ -98,23 +97,23 @@ public class GameTest {
 		Game game = gameService.getCurrentGame(setTennis2.getId());
 		game.setSetTennis(setTennis);
 		
-		gameService.addPoint(game, player_b);
+		gameService.addPointGame(game, player_b);
 		
-		gameService.addPoint(game, player_a);
-		gameService.addPoint(game, player_a);
-		gameService.addPoint(game, player_a);
+		gameService.addPointGame(game, player_a);
+		gameService.addPointGame(game, player_a);
+		gameService.addPointGame(game, player_a);
 		
-		gameService.addPoint(game, player_b);
-		gameService.addPoint(game, player_b);
-		gameService.addPoint(game, player_b);
+		gameService.addPointGame(game, player_b);
+		gameService.addPointGame(game, player_b);
+		gameService.addPointGame(game, player_b);
 		
-		gameService.addPoint(game, player_a);
+		gameService.addPointGame(game, player_a);
 		
-		gameService.addPoint(game, player_a);
+		gameService.addPointGame(game, player_a);
 		
-		gameService.addPoint(game, player_a);
+		gameService.addPointGame(game, player_a);
 				
-		Collection<ScoreGame> scorePlayerA = scoreGameService.getScoresGameOfPlayer(game, player_a);
+		Collection<ScoreGame> scorePlayerA = scoreGameService.getScoresGameByPlayer(game, player_a);
 		System.err.println("Player : " + player_a.getName());
 		for(ScoreGame score : scorePlayerA){			
 			System.err.print(score.getScoreValue() + " ");			
@@ -122,7 +121,7 @@ public class GameTest {
 		System.err.println();
 		
 		
-		Collection<ScoreGame> scorePlayerB = scoreGameService.getScoresGameOfPlayer(game, player_b);
+		Collection<ScoreGame> scorePlayerB = scoreGameService.getScoresGameByPlayer(game, player_b);
 		
 		System.err.println("Player : " + player_b.getName());
 		for(ScoreGame score : scorePlayerB){			
@@ -131,9 +130,11 @@ public class GameTest {
 		
 		System.err.println();
 		
+		Assert.assertTrue(player_a.equals(game.getWinner()));
+		
 		System.err.println("Winner is " + game.getWinner().getName());
 		
-		Assert.assertTrue(player_a.equals(game.getWinner()));
+		
 		
 	}
 }

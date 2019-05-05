@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { GameService, GameDto, ScoreGameDto } from '../service/game.service';
 
 @Component({
@@ -10,7 +10,11 @@ export class GameComponent implements OnInit {
 
   private _setTennisId: string;
 
+  private _setWon: boolean;
+
   currentGame: GameDto;
+
+   @Output() win = new EventEmitter<boolean>();
 
   constructor(private gameService: GameService) { }
 
@@ -25,7 +29,7 @@ export class GameComponent implements OnInit {
 
   addPoint(playerId: string): void {
     this.gameService.addPoint(this.currentGame.id, playerId)
-      .subscribe( response => { this.currentGame = response; } );
+      .subscribe( response => { this.currentGame = response; if(this.currentGame.winner) this.win.emit(true) ; else this.win.emit(false) ;} );
   }
 
   createGame(): void {
@@ -43,4 +47,8 @@ export class GameComponent implements OnInit {
         this.getCurrentGame(this.setTennisId);
   }
 
+  @Input()
+  set setWon(setWon: boolean){
+    this._setWon = setWon;
+  }
 }

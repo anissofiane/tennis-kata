@@ -29,14 +29,14 @@ export class GameService {
   constructor(private httpClient: HttpClient) { }
 
    getCurrentGame(setTennisId: string) {
-      return this.httpClient.get<GameDto>('http://localhost:8080/currentGame' + '/' + setTennisId);
+      return this.httpClient.get<GameDto>('http://localhost:8080/game/currentGame' + '/' + setTennisId);
   }
 
   addPoint(gameId: string, playerId: string) {
-      return this.httpClient.get<GameDto>('http://localhost:8080/addPoint' + '/' + gameId + '/' + playerId);
+      return this.httpClient.get<GameDto>('http://localhost:8080/game/addPoint' + '/' + gameId + '/' + playerId);
   }
 
   createGame(setTennisId: string) {
-      return this.httpClient.get<GameDto>('http://localhost:8080/createGame' + '/' + setTennisId);
+      return this.httpClient.get<GameDto>('http://localhost:8080/game/createGame' + '/' + setTennisId);
   }
 }

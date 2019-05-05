@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
 import javax.persistence.SequenceGenerator;
@@ -55,6 +56,10 @@ public class SetTennis implements Serializable{
 	        fetch =  FetchType.LAZY
 	    )
     private Collection<ScoreSet> scores = new ArrayList<ScoreSet>();
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "PLAYER_ID")
+    private Player winner;
 	
 	public Long getId() {
 		return id;
@@ -105,6 +110,14 @@ public class SetTennis implements Serializable{
 	public void removeScore(ScoreSet score){
 		scores.remove(score);
 		score.setSetTennis(null);
+	}
+
+	public Player getWinner() {
+		return winner;
+	}
+
+	public void setWinner(Player winner) {
+		this.winner = winner;
 	}
 
 	@Override

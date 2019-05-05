@@ -11,5 +11,7 @@ public interface SetTennisService {
 	public SetTennis createSetTennis(Collection<Player> players);
 	public Game createGame(Long setTennisId);
 	public SetTennis getSetTennisById(Long setTennisId);
+	public void addPointSet(SetTennis setTennis, Player player);
+	public void updateScore(SetTennis setTennis);
 	public int getSetOrder(SetTennis setTennis);
 }

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.sa.model.Game;
 import com.sa.model.Player;
 import com.sa.model.ScoreGame;
-import com.sa.model.SetTennis;
 import com.sa.repository.GameRepository;
 
 @Service
@@ -55,7 +54,7 @@ public class GameServiceImpl implements GameService {
 	private PlayerService playerService;
 	
 	@Override
-	public void addPoint(Game game, Player player) {
+	public void addPointGame(Game game, Player player) {
 		
 		ScoreGame lastScoreGameA = scoreGameService.getLastScoreGame(game, player);
 		ScoreGame lastScoreGameB = null;
@@ -146,17 +145,25 @@ public class GameServiceImpl implements GameService {
 	}
 	
 	@Override
-	public Game getCurrentGame(Long setId) {
+	public Game getCurrentGame(Long setTennisId) {
 		Specification<Game> winnerIsNull = (game, cq, cb) -> cb.isNull(game.get("winner"));
-		Specification<Game> getGameSet = (game, cq, cb) -> cb.equal(game.get("setTennis").get("id"), setId);
+		Specification<Game> getGameSet = (game, cq, cb) -> cb.equal(game.get("setTennis").get("id"), setTennisId);
 		return gameRepository.findOne(getGameSet.and(winnerIsNull)).get();
 	}
 
 	@Override
-	public Game addPoint(Long gameId, Long playerId) {
+	public Game getLastGame(Long setTennisId) {
+		Comparator<Game> comparator = Comparator.comparing( Game::getId );
+		Specification<Game> getGameSet = (game, cq, cb) -> cb.equal(game.get("setTennis").get("id"), setTennisId);
+		List<Game> games = gameRepository.findAll(getGameSet);
+		return games.stream().max(comparator).get();
+	}
+	
+	@Override
+	public Game addPointGame(Long gameId, Long playerId) {
 		Game game = getGameById(gameId);
 		Player player = playerService.getPlayerById(playerId);
-		addPoint(game, player);
+		addPointGame(game, player);
 		return game;
 	}
 

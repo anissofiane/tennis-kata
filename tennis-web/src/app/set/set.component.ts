@@ -18,8 +18,18 @@ export class SetComponent implements  OnInit {
       .subscribe( response => { this.currentSet = response; } );
   }
 
+  loadSetTennis(): void {
+    this.setService.updateScore(this.currentSet.id)
+      .subscribe( response => { this.currentSet = response; } );
+  }
+
   ngOnInit() {
        this.createSetTennis();
   }
 
+  onWin(win: boolean) {
+        if(win) {
+            this.loadSetTennis();
+        }
+  }
 }

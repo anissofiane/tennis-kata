@@ -18,7 +18,7 @@ export class PlayerService {
   constructor(private httpClient: HttpClient) { }
 
     getAllPlayers() {
-    return this.httpClient.get<PlayerDto[]>('http://localhost:8080/getAllPlayers');
+    return this.httpClient.get<PlayerDto[]>('http://localhost:8080/player/getAllPlayers');
   }
 
 }

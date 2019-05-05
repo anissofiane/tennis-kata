@@ -44,13 +44,13 @@ public class GameController {
 	
 	
 	@RequestMapping(value = Constants.CURRENT_GAME, method = RequestMethod.GET)
-	public GameDto getCurrentGame(@PathVariable("setId") Long setId){		
-		return convertToDto(gameService.getCurrentGame(setId));
+	public GameDto getCurrentGame(@PathVariable("setTennisId") Long setTennisId){		
+		return convertToDto(gameService.getCurrentGame(setTennisId));
 	}
 	
 	@RequestMapping(value = Constants.ADD_POINT, method = RequestMethod.GET)
 	public GameDto addPoint(@PathVariable("gameId") Long gameId, @PathVariable("playerId") Long playerId){
-		Game game = gameService.addPoint(gameId, playerId);
+		Game game = gameService.addPointGame(gameId, playerId);
 		return convertToDto(game);		
 	}
 	
@@ -67,7 +67,7 @@ public class GameController {
 		Collection<PlayerDto> playersDto = game.getSetTennis().getPlayers().stream().map(player -> modelMapper.map(player, PlayerDto.class)).collect(Collectors.toList());
 		
 		for(Player player : game.getSetTennis().getPlayers() ){			
-			Collection<ScoreGame> scores = scoreGameService.getScoresGameOfPlayer(game, player);
+			Collection<ScoreGame> scores = scoreGameService.getScoresGameByPlayer(game, player);
 			Collection<ScoreGameDto> list = scores.stream().map(scoreGame -> modelMapper.map(scoreGame, ScoreGameDto.class)).collect(Collectors.toList());
 			map.put(player.getId(), list);
 		}

@@ -10,5 +10,5 @@ public interface ScoreGameService {
 
 	public void addScore(Game game, Player player, String scoreValue);
 	public ScoreGame getLastScoreGame(Game game, Player player);
-	public Collection<ScoreGame> getScoresGameOfPlayer(Game game, Player player);
+	public Collection<ScoreGame> getScoresGameByPlayer(Game game, Player player);
 }

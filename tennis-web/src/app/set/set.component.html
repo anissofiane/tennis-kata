@@ -2,6 +2,27 @@
 
 <table style="width: 100%">   
     <tr>
-        <td style="text-align: center"><app-game [setTennisId]="currentSet.id" #game></app-game></td>
+        <td style="text-align: center"><app-game [setTennisId]="currentSet.id" [setWon]="currentSet.winner" (win)="onWin($event)" #game></app-game></td>
     </tr>
 </table>
+
+<div align="center" style="width:100%">
+<table border="1" style="width:80%">
+<caption style="caption-side: top">Set Score</caption>
+    <tr *ngFor="let player of currentSet.players">        
+        <th style="width: 1%;text-align: center;">{{player.name}}</th>
+         <td style="width: 10%" >            
+              <table style="height: 100%;">                
+                <tr>
+                   <td style="border-right: 1px black solid;text-align: center;width: 60px" *ngFor="let score of currentSet.scoresMap[player.id]">               
+                     {{score.scoreValue}}                
+                </td> 
+                <td style="text-align: center;width:100px;" *ngIf="currentSet.winner  && currentSet.winner.id == player.id">
+                    Winner
+                </td>     
+                </tr>
+            </table>  
+        </td>  
+    </tr>    
+</table>   
+</div>
