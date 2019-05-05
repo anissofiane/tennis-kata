@@ -142,4 +142,62 @@ public class SetTest {
 		
 		System.err.println("Winner is " + setTennis.getWinner().getName());
 	}
+	
+	@Test
+	public void win_set_tie_break(){
+		
+		Player player_a = new Player("Player A");
+		Player player_b = new Player("Player B");
+		
+		playerService.savePlayer(player_a);
+		playerService.savePlayer(player_b);
+						
+		SetTennis setTennis = setTennisService.createSetTennis(Arrays.asList(player_a,player_b));
+		
+		setTennisService.addPointSet(setTennis, player_a);
+		setTennisService.addPointSet(setTennis, player_a);
+		setTennisService.addPointSet(setTennis, player_a);
+		setTennisService.addPointSet(setTennis, player_a);
+		setTennisService.addPointSet(setTennis, player_a);
+		
+		setTennisService.addPointSet(setTennis, player_b);
+		setTennisService.addPointSet(setTennis, player_b);
+		setTennisService.addPointSet(setTennis, player_b);
+		setTennisService.addPointSet(setTennis, player_b);
+		setTennisService.addPointSet(setTennis, player_b);
+		
+		setTennisService.addPointSet(setTennis, player_a);
+		//tie_break
+		setTennisService.addPointSet(setTennis, player_b);
+		
+		setTennisService.addPointSet(setTennis, player_b);
+		
+		setTennisService.addPointSet(setTennis, player_a);
+		
+		setTennisService.addPointSet(setTennis, player_a);
+		
+		setTennisService.addPointSet(setTennis, player_a);
+		
+		
+		Collection<ScoreSet> scorePlayerA = scoreSetService.getScoresSetByPlayer(setTennis, player_a);
+		System.err.println("Player : " + player_a.getName());
+		for(ScoreSet score : scorePlayerA){			
+			System.err.print(score.getScoreValue() + " ");			
+		}
+		System.err.println();
+		
+		
+		Collection<ScoreSet> scorePlayerB = scoreSetService.getScoresSetByPlayer(setTennis, player_b);
+		System.err.println("Player : " + player_b.getName());
+		for(ScoreSet score : scorePlayerB){			
+			System.err.print(score.getScoreValue() + " ");			
+		}
+		System.err.println();
+		
+		System.err.println();
+					
+		Assert.assertTrue(player_a.equals(setTennis.getWinner()));
+		
+		System.err.println("Winner is " + setTennis.getWinner().getName());
+	}
 }
