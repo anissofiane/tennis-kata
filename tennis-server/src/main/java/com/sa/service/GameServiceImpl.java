@@ -171,7 +171,7 @@ public class GameServiceImpl implements GameService {
 			
 		List<Game> sortedGames = games.stream().sorted(comparator).collect(Collectors.toList());
 		
-		return sortedGames.indexOf(game);
+		return sortedGames.indexOf(game) + 1;
 		
 	}
 	

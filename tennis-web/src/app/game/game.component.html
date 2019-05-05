@@ -1,6 +1,6 @@
 <div align="center" style="width:100%">
 <button [disabled]="!currentGame.winner" class="btn btn-primary"  (click)="createGame()">New Game</button>
-<table border="1" style="width:50%">
+<table border="1" style="width:80%">
 <caption style="caption-side: top">Game N&deg; {{this.currentGame.gameOrder}}</caption>
     <tr *ngFor="let player of currentGame.players">
         <th style="width: 1%;text-align:center;"><button [disabled]="currentGame.winner" class="btn btn-secondary" (click)="addPoint(player.id)">ADD</button></th>
@@ -8,10 +8,10 @@
         <td style="width: 10%" >            
             <table style="height: 100%;">                
                 <tr>
-                   <td style="border-right: 1px black solid;text-align: center;width: 30px" *ngFor="let score of currentGame.scoresMap[player.id]">               
+                   <td style="border-right: 1px black solid;text-align: center;width: 60px" *ngFor="let score of currentGame.scoresMap[player.id]">               
                      {{score.scoreValue}}                
                 </td> 
-                <td style="text-align: center" *ngIf="currentGame.winner  && currentGame.winner.id == player.id">
+                <td style="text-align: center;width:100px;" *ngIf="currentGame.winner  && currentGame.winner.id == player.id">
                     Winner
                 </td>     
                 </tr>
