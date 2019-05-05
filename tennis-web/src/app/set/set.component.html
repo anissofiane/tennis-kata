@@ -2,7 +2,7 @@
 
 <table style="width: 100%">   
     <tr>
-        <td style="text-align: center"><app-game [setTennisId]="currentSet.id" [setWon]="currentSet.winner" (win)="onWin($event)" #game></app-game></td>
+        <td style="text-align: center"><app-game [setTennisId]="currentSet.id" [setWon]="currentSet.winner != null" (win)="onWin($event)" #game></app-game></td>
     </tr>
 </table>
 

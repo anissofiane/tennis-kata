@@ -47,8 +47,12 @@ export class GameComponent implements OnInit {
         this.getCurrentGame(this.setTennisId);
   }
 
+  get setWon(): boolean {
+      return this._setWon;
+  }
+
   @Input()
-  set setWon(setWon: boolean){
+  set setWon(setWon: boolean) {
     this._setWon = setWon;
   }
 }
