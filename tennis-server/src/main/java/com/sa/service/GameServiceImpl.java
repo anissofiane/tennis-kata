@@ -23,7 +23,7 @@ public class GameServiceImpl implements GameService {
 	public  final static int POINT_3 = 40 ;
 	
 	public enum ScoreValueEnum {
-		POINT_0("0"),POINT_1("15"),POINT_2("30"),POINT_3("40");
+		POINT_0("0"), POINT_1("15"), POINT_2("30"), POINT_3("40"), POINT_ADV("ADV"), POINT_DEUCE("DEUCE");
 		private final String point;
 		private ScoreValueEnum(String point){
 			this.point = point;
@@ -56,25 +56,27 @@ public class GameServiceImpl implements GameService {
 	
 	@Override
 	public void addPoint(Game game, Player player) {
-		boolean gameEnd = false;
+		
 		ScoreGame lastScoreGameA = scoreGameService.getLastScoreGame(game, player);
-		ScoreValueEnum nextScoreValue = getNextPoint(lastScoreGameA.getScoreValue());		
-		
-		if(nextScoreValue == ScoreValueEnum.POINT_0){
-			game.setWinner(player);
-			gameEnd = true;
-		}
-		
-		scoreGameService.addScore(game, player, nextScoreValue.getPoint());
-					
-		
+		ScoreGame lastScoreGameB = null;
+		Player otherplayer = null;
+						
 		for(Player p : game.getSetTennis().getPlayers()){
 			if(!player.equals(p)){
-				ScoreGame lastScoreGameB = scoreGameService.getLastScoreGame(game, p);
-				scoreGameService.addScore(game, p, gameEnd ? "0" : lastScoreGameB.getScoreValue());
+				lastScoreGameB = scoreGameService.getLastScoreGame(game, p);
+				otherplayer = p;
 			}
 		}
-						
+		ScoreValueEnum[] nextScoreValue = getNextPoint(lastScoreGameA.getScoreValue(), lastScoreGameB.getScoreValue());		
+		
+		if(nextScoreValue[0] == ScoreValueEnum.POINT_0){
+			game.setWinner(player);			
+		}
+		
+		scoreGameService.addScore(game, player, nextScoreValue[0].getPoint());
+		
+		scoreGameService.addScore(game, otherplayer, nextScoreValue[1].getPoint());
+										
 		saveGame(game);
 	}
 
@@ -92,26 +94,34 @@ public class GameServiceImpl implements GameService {
 		return saveGame(game);		
 	}
 		
-	private ScoreValueEnum getNextPoint(String scoreGame){
-		ScoreValueEnum nextScoreValue = ScoreValueEnum.POINT_0;
-		switch (ScoreValueEnum.fromPoint(scoreGame)) {
+	private ScoreValueEnum[] getNextPoint(String scoreGameA, String scoreGameB){
+		ScoreValueEnum[] nextScoreValues = new ScoreValueEnum [2];		
+		ScoreValueEnum scoreGameBEnumm = ScoreValueEnum.fromPoint(scoreGameB);
+		switch (ScoreValueEnum.fromPoint(scoreGameA)) {
 		case POINT_0:
-			nextScoreValue = ScoreValueEnum.POINT_1;
+			nextScoreValues [0] = ScoreValueEnum.POINT_1;
+			nextScoreValues [1] = scoreGameBEnumm;
 			break;
 		case POINT_1:
-			nextScoreValue = ScoreValueEnum.POINT_2;
+			nextScoreValues [0] = ScoreValueEnum.POINT_2;
+			nextScoreValues [1] = scoreGameBEnumm;
 			break;		
 		case POINT_2:
-			nextScoreValue = ScoreValueEnum.POINT_3;
+			nextScoreValues [0] = ScoreValueEnum.POINT_3;
+			nextScoreValues [1] = scoreGameBEnumm;
 			break;
-		case POINT_3:
-			nextScoreValue = ScoreValueEnum.POINT_0;
-			break;
+		case POINT_3:			
+			nextScoreValues [0] = ScoreValueEnum.POINT_0;
+			nextScoreValues [1] = ScoreValueEnum.POINT_0;					
+			break;		
 		default:
+			nextScoreValues [0] = ScoreValueEnum.POINT_0;
+			nextScoreValues [1] = ScoreValueEnum.POINT_0;
 			break;
 		}
 		
-		return nextScoreValue;
+		
+		return nextScoreValues;
 	}
 
 	@Override

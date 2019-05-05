@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.JoinType;
 
 import org.springframework.beans.factory.annotation.Autowired;
