@@ -82,8 +82,11 @@ public class SetTennisServiceImpl implements SetTennisService{
 		ScoreSet lastScoreSetB = scoreSetService.getLastScorSet(setTennis, otherPlayer);
 		scoreSetService.addScore(setTennis, otherPlayer, lastScoreSetB.getScoreValue());
 		
-		if((lastScoreSetA.getScoreValue() == 5 && lastScoreSetB.getScoreValue() < 5) ||
-				(lastScoreSetA.getScoreValue() == 6 && lastScoreSetB.getScoreValue() < 7)){
+		if(lastScoreSetA.getScoreValue() == 5 && lastScoreSetB.getScoreValue() == 6){
+			setTennis.setTieBreak(true);
+		}else if((lastScoreSetA.getScoreValue() == 5 && lastScoreSetB.getScoreValue() < 5) ||
+				(lastScoreSetA.getScoreValue() == 6 && lastScoreSetB.getScoreValue() < 7 && !setTennis.isTieBreak()) ||
+				(lastScoreSetA.getScoreValue()>=6 && lastScoreSetB.getScoreValue()>=6 && (lastScoreSetA.getScoreValue() - lastScoreSetB.getScoreValue() > 0) && setTennis.isTieBreak())){
 			setTennis.setWinner(player);
 		}
 	}
@@ -93,6 +96,7 @@ public class SetTennisServiceImpl implements SetTennisService{
 		Game lastGame = gameService.getLastGame(setTennis.getId());
 		if(lastGame.getWinner() != null){
 			addPointSet(setTennis, lastGame.getWinner());
+			setTennisRepository.save(setTennis);
 		}
 	}
 	

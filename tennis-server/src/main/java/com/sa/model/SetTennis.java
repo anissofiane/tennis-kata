@@ -61,6 +61,9 @@ public class SetTennis implements Serializable{
     @JoinColumn(name = "PLAYER_ID")
     private Player winner;
 	
+	@Column(name = "TIE_BREAK" )
+	private Boolean tieBreak;
+	
 	public Long getId() {
 		return id;
 	}
@@ -118,6 +121,14 @@ public class SetTennis implements Serializable{
 
 	public void setWinner(Player winner) {
 		this.winner = winner;
+	}
+
+	public Boolean isTieBreak() {
+		return tieBreak;
+	}
+
+	public void setTieBreak(Boolean tieBreak) {
+		this.tieBreak = tieBreak;
 	}
 
 	@Override
