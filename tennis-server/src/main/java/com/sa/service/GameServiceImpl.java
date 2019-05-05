@@ -110,10 +110,26 @@ public class GameServiceImpl implements GameService {
 			nextScoreValues [0] = ScoreValueEnum.POINT_3;
 			nextScoreValues [1] = scoreGameBEnumm;
 			break;
-		case POINT_3:			
+		case POINT_3:
+			if(scoreGameBEnumm == ScoreValueEnum.POINT_3){
+				nextScoreValues [0] = ScoreValueEnum.POINT_ADV;
+				nextScoreValues [1] = scoreGameBEnumm;
+			}else if(scoreGameBEnumm == ScoreValueEnum.POINT_ADV){
+				nextScoreValues [0] = ScoreValueEnum.POINT_DEUCE;
+				nextScoreValues [1] = ScoreValueEnum.POINT_DEUCE;
+			}else {
+				nextScoreValues [0] = ScoreValueEnum.POINT_0;
+				nextScoreValues [1] = ScoreValueEnum.POINT_0;
+			}				
+			break;
+		case POINT_ADV:
 			nextScoreValues [0] = ScoreValueEnum.POINT_0;
-			nextScoreValues [1] = ScoreValueEnum.POINT_0;					
-			break;		
+			nextScoreValues [1] = ScoreValueEnum.POINT_0;
+			break;
+		case POINT_DEUCE:
+			nextScoreValues [0] = ScoreValueEnum.POINT_ADV;
+			nextScoreValues [1] = ScoreValueEnum.POINT_3;
+			break;
 		default:
 			nextScoreValues [0] = ScoreValueEnum.POINT_0;
 			nextScoreValues [1] = ScoreValueEnum.POINT_0;
