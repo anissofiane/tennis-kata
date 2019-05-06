@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +34,9 @@ public class ScoreSetServiceImpl implements ScoreSetService {
 		Specification<ScoreSet> scoresSet  = (scoreSet, cq, cb) -> cb.equal(scoreSet.get("setTennis").get("id"), setTennis.getId());
 		Specification<ScoreSet> scoresSetPlayer  = (scoreSet, cq, cb) -> cb.equal(scoreSet.get("player").get("id"), player.getId());
 				
-		List<ScoreSet> scores = scoreSetRepository.findAll(scoresSet.and(scoresSetPlayer));
-		
-		Comparator<ScoreSet> comparator = Comparator.comparing( ScoreSet::getId );
-			
-		return scores.stream().max(comparator).get();
+		ScoreSet score = scoreSetRepository.findAll(scoresSet.and(scoresSetPlayer), Sort.by(Sort.Direction.DESC,"id")).get(0);
+					
+		return score;
 	}
 
 	@Override
@@ -46,11 +45,9 @@ public class ScoreSetServiceImpl implements ScoreSetService {
 		Specification<ScoreSet> scoresSet  = (scoreSet, cq, cb) -> cb.equal(scoreSet.get("setTennis").get("id"), setTennis.getId());
 		Specification<ScoreSet> scoresSetPlayer  = (scoreSet, cq, cb) -> cb.equal(scoreSet.get("player").get("id"), player.getId());
 				
-		List<ScoreSet> scores = scoreSetRepository.findAll(scoresSet.and(scoresSetPlayer));
+		List<ScoreSet> scores = scoreSetRepository.findAll(scoresSet.and(scoresSetPlayer), Sort.by(Sort.Direction.ASC,"id"));
 		
-		Comparator<ScoreSet> comparator = Comparator.comparing( ScoreSet::getId );
-			
-		return scores.stream().sorted(comparator).collect(Collectors.toList());
+		return scores;
 	}
 
 }

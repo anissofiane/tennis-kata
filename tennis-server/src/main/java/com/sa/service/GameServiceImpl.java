@@ -5,17 +5,24 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.sa.aop.AddPointSet;
 import com.sa.model.Game;
 import com.sa.model.Player;
 import com.sa.model.ScoreGame;
+import com.sa.model.SetTennis;
 import com.sa.repository.GameRepository;
 
 @Service
 public class GameServiceImpl implements GameService {
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public  final static int POINT_1 = 15 ;
 	public  final static int POINT_2 = 30 ;
@@ -53,7 +60,7 @@ public class GameServiceImpl implements GameService {
 	@Autowired
 	private PlayerService playerService;
 	
-	@Override
+	@Override		
 	public void addPointGame(Game game, Player player) {
 		
 		ScoreGame lastScoreGameA = scoreGameService.getLastScoreGame(game, player);
@@ -69,6 +76,7 @@ public class GameServiceImpl implements GameService {
 		ScoreValueEnum[] nextScoreValue = getNextPoint(lastScoreGameA.getScoreValue(), lastScoreGameB.getScoreValue());		
 		
 		if(nextScoreValue[0] == ScoreValueEnum.POINT_0){
+			logger.debug("The Winner of Game [id = " + game.getId() + "] is the player [id = " + player.getId() + "]");
 			game.setWinner(player);			
 		}
 		
@@ -85,11 +93,13 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Game createGame(Collection<Player> players) {
+	public Game createGame(SetTennis setTennis) {
 		Game game = saveGame(new Game());
-		for(Player player: players){
+		for(Player player: setTennis.getPlayers()){
+			logger.debug("Create Score 0 of Game [id = " + game.getId() + "] and the player [id = " + player.getId() + "]");
 			scoreGameService.addScore(game, player, ScoreValueEnum.POINT_0.getPoint());
 		}		
+		game.setSetTennis(setTennis);
 		return saveGame(game);		
 	}
 		
@@ -152,14 +162,13 @@ public class GameServiceImpl implements GameService {
 	}
 
 	@Override
-	public Game getLastGame(Long setTennisId) {
-		Comparator<Game> comparator = Comparator.comparing( Game::getId );
+	public Game getLastGame(Long setTennisId) {		
 		Specification<Game> getGameSet = (game, cq, cb) -> cb.equal(game.get("setTennis").get("id"), setTennisId);
-		List<Game> games = gameRepository.findAll(getGameSet);
-		return games.stream().max(comparator).get();
+		return gameRepository.findAll(getGameSet, Sort.by(Sort.Direction.DESC,"id")).get(0);		
 	}
 	
-	@Override
+	@Override	
+	@AddPointSet
 	public Game addPointGame(Long gameId, Long playerId) {
 		Game game = getGameById(gameId);
 		Player player = playerService.getPlayerById(playerId);
@@ -172,13 +181,9 @@ public class GameServiceImpl implements GameService {
 			
 		Specification<Game> setTennisGames  = (g, cq, cb) -> cb.equal(g.get("setTennis").get("id"), game.getSetTennis().getId());
 						
-		List<Game> games = gameRepository.findAll(setTennisGames);
-		
-		Comparator<Game> comparator = Comparator.comparing( Game::getId );
-			
-		List<Game> sortedGames = games.stream().sorted(comparator).collect(Collectors.toList());
-		
-		return sortedGames.indexOf(game) + 1;
+		List<Game> games = gameRepository.findAll(setTennisGames, Sort.by(Sort.Direction.ASC,"id"));
+							
+		return games.indexOf(game) + 1;
 		
 	}
 	

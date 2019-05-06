@@ -1,13 +1,12 @@
 package com.sa.service;
 
-import java.util.Collection;
-
 import com.sa.model.Game;
 import com.sa.model.Player;
+import com.sa.model.SetTennis;
 
 public interface GameService {
 
-	public Game createGame(Collection<Player> players);
+	public Game createGame(SetTennis setTennis);
 	public Game saveGame(Game game);
 	public void addPointGame(Game game, Player player);
 	public Game addPointGame(Long gameId, Long playerId);

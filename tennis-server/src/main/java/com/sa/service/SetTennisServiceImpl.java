@@ -38,7 +38,7 @@ public class SetTennisServiceImpl implements SetTennisService{
 			scoreSetService.addScore(setTennis, player, 0);			
 		}
 		
-		Game game = gameService.createGame(players);		
+		Game game = gameService.createGame(setTennis);		
 		setTennis.addGame(game);		
 		
 		return setTennisRepository.save(setTennis);
@@ -52,8 +52,7 @@ public class SetTennisServiceImpl implements SetTennisService{
 	@Override
 	public Game createGame(Long setTennisId) {
 		SetTennis setTennis = getSetTennisById(setTennisId);
-		Game game = gameService.createGame(setTennis.getPlayers());		
-		setTennis.addGame(game);
+		Game game = gameService.createGame(setTennis);		
 		setTennisRepository.save(setTennis);
 		return gameService.getGameById(game.getId());
 	}
@@ -63,7 +62,7 @@ public class SetTennisServiceImpl implements SetTennisService{
 		Iterator<Player> it = setTennis.getPlayers().iterator();
 		Specification<SetTennis> sets  = (s, cq, cb) -> cb.equal(s.joinCollection("players", JoinType.LEFT).get("id"), it.next().getId());
 		List<SetTennis> setTennisList = setTennisRepository.findAll(sets);
-		return setTennisList.indexOf(setTennis);
+		return setTennisList.indexOf(setTennis)+1;
 	}
 
 	@Override

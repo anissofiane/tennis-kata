@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +35,9 @@ public class ScoreGameServiceImpl implements ScoreGameService {
 		Specification<ScoreGame> scoresGame  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("game").get("id"), game.getId());
 		Specification<ScoreGame> scoresGamePlayer  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("player").get("id"), player.getId());
 				
-		List<ScoreGame> scores = scoreGameRepository.findAll(scoresGame.and(scoresGamePlayer));
-		
-		Comparator<ScoreGame> comparator = Comparator.comparing( ScoreGame::getId );
-			
-		return scores.stream().max(comparator).get();
+		ScoreGame score = scoreGameRepository.findAll(scoresGame.and(scoresGamePlayer), Sort.by(Sort.Direction.DESC,"id")).get(0);
+					
+		return score;
 	}
 
 	@Override
@@ -47,11 +46,9 @@ public class ScoreGameServiceImpl implements ScoreGameService {
 		Specification<ScoreGame> scoresGame  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("game").get("id"), game.getId());
 		Specification<ScoreGame> scoresGamePlayer  = (scoreGame, cq, cb) -> cb.equal(scoreGame.get("player").get("id"), player.getId());			
 		
-		List<ScoreGame> scores = scoreGameRepository.findAll(scoresGame.and(scoresGamePlayer));
-		
-		Comparator<ScoreGame> comparator = Comparator.comparing( ScoreGame::getId );
-			
-		return scores.stream().sorted(comparator).collect(Collectors.toList());
+		List<ScoreGame> scores = scoreGameRepository.findAll(scoresGame.and(scoresGamePlayer), Sort.by(Sort.Direction.ASC,"id"));
+							
+		return scores;
 	}
 	
 }

@@ -8,6 +8,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +32,7 @@ import com.sa.util.Constants;
 @RestController
 public class GameController {
 
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private GameService gameService;
@@ -44,18 +47,21 @@ public class GameController {
 	
 	
 	@RequestMapping(value = Constants.CURRENT_GAME, method = RequestMethod.GET)
-	public GameDto getCurrentGame(@PathVariable("setTennisId") Long setTennisId){		
+	public GameDto getCurrentGame(@PathVariable("setTennisId") Long setTennisId){	
+		logger.info("get current game of set [id = " + setTennisId +"]");
 		return convertToDto(gameService.getCurrentGame(setTennisId));
 	}
 	
 	@RequestMapping(value = Constants.ADD_POINT, method = RequestMethod.GET)
 	public GameDto addPoint(@PathVariable("gameId") Long gameId, @PathVariable("playerId") Long playerId){
+		logger.info("add point to the game [id = " + gameId +"] , player [id = " + playerId +"]");
 		Game game = gameService.addPointGame(gameId, playerId);
 		return convertToDto(game);		
 	}
 	
 	@RequestMapping(value = Constants.CREATE_GAME, method = RequestMethod.GET)
-	public GameDto createGame(@PathVariable("setTennisId") Long setTennisId){		
+	public GameDto createGame(@PathVariable("setTennisId") Long setTennisId){	
+		logger.info("create new game to the set [id = " + setTennisId +"]");
 		Game game = setTennisService.createGame(setTennisId);		
 		return convertToDto(game);		
 	}

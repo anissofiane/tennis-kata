@@ -62,7 +62,7 @@ public class SetTennis implements Serializable{
     private Player winner;
 	
 	@Column(name = "TIE_BREAK" )
-	private Boolean tieBreak;
+	private Boolean tieBreak = Boolean.FALSE;
 	
 	public Long getId() {
 		return id;

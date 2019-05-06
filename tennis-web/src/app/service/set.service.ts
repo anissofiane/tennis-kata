@@ -37,8 +37,4 @@ export class SetService {
   getSetTennis(setTennisId: string) {
       return this.httpClient.get<SetTennisDto>('http://localhost:8080/set/getSetTennis' + '/' + setTennisId);
   }
-
-  updateScore(setTennisId: string) {
-      return this.httpClient.get<SetTennisDto>('http://localhost:8080/set/updateScore' + '/' + setTennisId);
-  }
 }

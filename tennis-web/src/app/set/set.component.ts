@@ -19,7 +19,7 @@ export class SetComponent implements  OnInit {
   }
 
   loadSetTennis(): void {
-    this.setService.updateScore(this.currentSet.id)
+    this.setService.getSetTennis(this.currentSet.id)
       .subscribe( response => { this.currentSet = response; } );
   }
 

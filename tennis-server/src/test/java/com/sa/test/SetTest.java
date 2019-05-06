@@ -6,13 +6,14 @@ import java.util.Collection;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.sa.model.Game;
 import com.sa.model.Player;
-import com.sa.model.ScoreGame;
 import com.sa.model.ScoreSet;
 import com.sa.model.SetTennis;
 import com.sa.service.GameService;
@@ -24,6 +25,8 @@ import com.sa.service.SetTennisService;
 @SpringBootTest
 public class SetTest {
 
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private SetTennisService setTennisService;
 	
@@ -72,25 +75,21 @@ public class SetTest {
 		
 		
 		Collection<ScoreSet> scorePlayerA = scoreSetService.getScoresSetByPlayer(setTennis, player_a);
-		System.err.println("Player : " + player_a.getName());
+		logger.info("Player : " + player_a.getName());
 		for(ScoreSet score : scorePlayerA){			
-			System.err.print(score.getScoreValue() + " ");			
+			logger.info(score.getScoreValue() + " ");			
 		}
-		System.err.println();
 		
 		
 		Collection<ScoreSet> scorePlayerB = scoreSetService.getScoresSetByPlayer(setTennis, player_b);
-		System.err.println("Player : " + player_b.getName());
+		logger.info("Player : " + player_b.getName());
 		for(ScoreSet score : scorePlayerB){			
-			System.err.print(score.getScoreValue() + " ");			
+			logger.info(score.getScoreValue() + " ");			
 		}
-		System.err.println();
-		
-		System.err.println();
 					
 		Assert.assertTrue(player_a.equals(setTennis.getWinner()));
 		
-		System.err.println("Winner is " + setTennis.getWinner().getName());
+		logger.info("Winner is " + setTennis.getWinner().getName());
 	}
 	
 	@Test
@@ -122,25 +121,21 @@ public class SetTest {
 		
 		
 		Collection<ScoreSet> scorePlayerA = scoreSetService.getScoresSetByPlayer(setTennis, player_a);
-		System.err.println("Player : " + player_a.getName());
+		logger.info("Player : " + player_a.getName());
 		for(ScoreSet score : scorePlayerA){			
-			System.err.print(score.getScoreValue() + " ");			
-		}
-		System.err.println();
+			logger.info(score.getScoreValue() + " ");			
+		}	
 		
 		
 		Collection<ScoreSet> scorePlayerB = scoreSetService.getScoresSetByPlayer(setTennis, player_b);
-		System.err.println("Player : " + player_b.getName());
+		logger.info("Player : " + player_b.getName());
 		for(ScoreSet score : scorePlayerB){			
-			System.err.print(score.getScoreValue() + " ");			
+			logger.info(score.getScoreValue() + " ");			
 		}
-		System.err.println();
-		
-		System.err.println();
 					
 		Assert.assertTrue(player_a.equals(setTennis.getWinner()));
 		
-		System.err.println("Winner is " + setTennis.getWinner().getName());
+		logger.info("Winner is " + setTennis.getWinner().getName());
 	}
 	
 	@Test
@@ -180,24 +175,20 @@ public class SetTest {
 		
 		
 		Collection<ScoreSet> scorePlayerA = scoreSetService.getScoresSetByPlayer(setTennis, player_a);
-		System.err.println("Player : " + player_a.getName());
+		logger.info("Player : " + player_a.getName());
 		for(ScoreSet score : scorePlayerA){			
-			System.err.print(score.getScoreValue() + " ");			
+			logger.info(score.getScoreValue() + " ");			
 		}
-		System.err.println();
-		
-		
+				
 		Collection<ScoreSet> scorePlayerB = scoreSetService.getScoresSetByPlayer(setTennis, player_b);
-		System.err.println("Player : " + player_b.getName());
+		logger.info("Player : " + player_b.getName());
 		for(ScoreSet score : scorePlayerB){			
-			System.err.print(score.getScoreValue() + " ");			
+			logger.info(score.getScoreValue() + " ");			
 		}
-		System.err.println();
 		
-		System.err.println();
 					
 		Assert.assertTrue(player_a.equals(setTennis.getWinner()));
 		
-		System.err.println("Winner is " + setTennis.getWinner().getName());
+		logger.info("Winner is " + setTennis.getWinner().getName());
 	}
 }
